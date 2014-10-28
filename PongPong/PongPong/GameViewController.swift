@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Scrambled Apps. All rights reserved.
 //
 
+//hello from Nicholas!
+
 /*
 NOTE: The OpenGL ES option is still in progress for Swift.
 
