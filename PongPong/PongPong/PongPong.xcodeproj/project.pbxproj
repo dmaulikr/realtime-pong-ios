@@ -16,6 +16,10 @@
 		316CEB1219FFF8D300158948 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB1119FFF8D300158948 /* Images.xcassets */; };
 		316CEB1519FFF8D300158948 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB1319FFF8D300158948 /* LaunchScreen.xib */; };
 		316CEB2119FFF8D300158948 /* PongPongTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB2019FFF8D300158948 /* PongPongTests.m */; };
+		316CEB321A0001E300158948 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB311A0001E300158948 /* StartViewController.m */; };
+		316CEB381A00032800158948 /* GameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB371A00032800158948 /* GameTableViewCell.m */; };
+		31D1343E1A0A6EE500B2308E /* Munro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31D1343D1A0A6EE500B2308E /* Munro.ttf */; };
+		31D134411A0A705C00B2308E /* PongViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D134401A0A705C00B2308E /* PongViewController.m */; };
 		4776ED76050C9BCFD5B0D613 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DB200BB0C0927DD0A5FFD7F /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +51,13 @@
 		316CEB1A19FFF8D300158948 /* PongPongTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PongPongTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		316CEB1F19FFF8D300158948 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		316CEB2019FFF8D300158948 /* PongPongTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PongPongTests.m; sourceTree = "<group>"; };
+		316CEB301A0001E300158948 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
+		316CEB311A0001E300158948 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		316CEB361A00032800158948 /* GameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTableViewCell.h; sourceTree = "<group>"; };
+		316CEB371A00032800158948 /* GameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTableViewCell.m; sourceTree = "<group>"; };
+		31D1343D1A0A6EE500B2308E /* Munro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Munro.ttf; sourceTree = "<group>"; };
+		31D1343F1A0A705C00B2308E /* PongViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PongViewController.h; path = ../PongViewController.h; sourceTree = "<group>"; };
+		31D134401A0A705C00B2308E /* PongViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PongViewController.m; path = ../PongViewController.m; sourceTree = "<group>"; };
 		E15BBED8880D7A82BDC3CFCF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +121,12 @@
 				316CEB1119FFF8D300158948 /* Images.xcassets */,
 				316CEB1319FFF8D300158948 /* LaunchScreen.xib */,
 				316CEB0019FFF8D300158948 /* Supporting Files */,
+				316CEB301A0001E300158948 /* StartViewController.h */,
+				316CEB311A0001E300158948 /* StartViewController.m */,
+				316CEB361A00032800158948 /* GameTableViewCell.h */,
+				316CEB371A00032800158948 /* GameTableViewCell.m */,
+				31D1343F1A0A705C00B2308E /* PongViewController.h */,
+				31D134401A0A705C00B2308E /* PongViewController.m */,
 			);
 			path = PongPong;
 			sourceTree = "<group>";
@@ -117,6 +134,7 @@
 		316CEB0019FFF8D300158948 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				31D1343D1A0A6EE500B2308E /* Munro.ttf */,
 				316CEB0119FFF8D300158948 /* Info.plist */,
 				316CEB0219FFF8D300158948 /* main.m */,
 			);
@@ -231,6 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31D1343E1A0A6EE500B2308E /* Munro.ttf in Resources */,
 				316CEB1519FFF8D300158948 /* LaunchScreen.xib in Resources */,
 				316CEB1019FFF8D300158948 /* Main.storyboard in Resources */,
 				316CEB1219FFF8D300158948 /* Images.xcassets in Resources */,
@@ -286,8 +305,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31D134411A0A705C00B2308E /* PongViewController.m in Sources */,
 				316CEB0619FFF8D300158948 /* AppDelegate.m in Sources */,
+				316CEB321A0001E300158948 /* StartViewController.m in Sources */,
 				316CEB0D19FFF8D300158948 /* GameViewController.m in Sources */,
+				316CEB381A00032800158948 /* GameTableViewCell.m in Sources */,
 				316CEB0319FFF8D300158948 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,6 +447,7 @@
 					"$(OTHER_LDFLAGS)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -445,6 +468,7 @@
 					"$(OTHER_LDFLAGS)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

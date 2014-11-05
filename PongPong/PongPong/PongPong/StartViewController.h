@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface StartViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextField *usernamTextfield;
+@property (weak, nonatomic) IBOutlet UIButton *addGameButton;
+- (IBAction)addGame:(id)sender;
 
 @end

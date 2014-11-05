@@ -20,4 +20,9 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)joinGame:(id)sender {
+    
+    
+    
+}
 @end

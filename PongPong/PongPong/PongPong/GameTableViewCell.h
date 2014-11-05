@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface GameTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *playerName;
 
+
+- (IBAction)joinGame:(id)sender;
 @end
