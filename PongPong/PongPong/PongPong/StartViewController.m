@@ -52,7 +52,7 @@
         for(int i = 0; i < [_games count]; i++){
             
             FDataSnapshot *snap = (FDataSnapshot *)[_games objectAtIndex:i];
-            if([snap.value isEqual:snapshot.value]){
+            if([snap.ref isEqual:snapshot.ref]){
                 index = i;
             }
         }
@@ -91,7 +91,11 @@
 
 - (void)addGame:(id)sender{
     
-    NSDictionary *game = @{@"master" : self.username, @"slave": @""};
+    NSDictionary *game = @{@"master" : self.username,
+                           @"slave": @"",
+                           @"master_ready": @NO,
+                           @"slave_ready": @NO
+                           };
     NSLog(@"Add game: %@",game);
     [[_gamesRef childByAutoId] setValue:game withCompletionBlock:^(NSError *error, Firebase *ref) {
         if (error) {
