@@ -38,7 +38,7 @@
     
     [_gamesRef observeEventType:FEventTypeChildAdded withBlock:^(FDataSnapshot *snapshot) {
         // Add the chat message to the array.
-        [_games addObject:snapshot.value];
+        [_games addObject:snapshot];
         // Reload the table view so the new message will show up.
         if (!initialLoad) {
             NSIndexPath *ip = [NSIndexPath indexPathForRow:([_games count]-1) inSection:0];
@@ -48,7 +48,14 @@
     
     [_gamesRef observeEventType:FEventTypeChildRemoved withBlock:^(FDataSnapshot *snapshot) {
         // Add the chat message to the array.
-        int index = (int)[_games indexOfObject:snapshot.value];
+        int index = -1;
+        for(int i = 0; i < [_games count]; i++){
+            
+            FDataSnapshot *snap = (FDataSnapshot *)[_games objectAtIndex:i];
+            if([snap.value isEqual:snapshot.value]){
+                index = i;
+            }
+        }
         [_games removeObjectAtIndex:index];
         // Reload the table view so the new message will show up.
         if (!initialLoad) {
@@ -100,14 +107,15 @@
 - (void)joinGame:(id)sender{
  
     NSIndexPath *indexpath = [self.tableView indexPathForCell:sender];
-    Firebase *gameRef = [_games objectAtIndex:indexpath.row];
+    FDataSnapshot *snapshot = [_games objectAtIndex:indexpath.row];
+    Firebase *gameRef = snapshot.ref;
     NSDictionary *update = @{@"slave" : self.username};
     [gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
         if (error) {
             NSLog(@"Data could not be updated. %@",error);
         } else {
             
-            [self performSegueWithIdentifier:@"startGame" sender:ref];
+            [self performSegueWithIdentifier:@"joinGame" sender:ref];
             
         }
     }];
@@ -119,6 +127,11 @@
     if([segue.identifier isEqualToString:@"startGame"]){
         PongViewController *pvc = (PongViewController *)segue.destinationViewController;
         pvc.gameRef = (Firebase *)sender;
+        pvc.isMaster = YES;
+    }else if([segue.identifier isEqualToString:@"joinGame"]){
+        PongViewController *pvc = (PongViewController *)segue.destinationViewController;
+        pvc.gameRef = (Firebase *)sender;
+        pvc.isMaster = NO;
     }
     
 }
@@ -141,8 +154,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     GameTableViewCell *gtvc = (GameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"gameCell"];
-    NSDictionary *game = [_games objectAtIndex:indexPath.row];
-    [gtvc.playerName setText:game[@"master"]];
+    FDataSnapshot *game = [_games objectAtIndex:indexPath.row];
+    NSDictionary *gameValue = game.value;
+    [gtvc.playerName setText:gameValue[@"master"]];
     [gtvc setDelegate:self];
     
     return gtvc;

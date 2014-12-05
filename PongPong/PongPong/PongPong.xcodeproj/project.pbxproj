@@ -115,11 +115,11 @@
 				316CEB0E19FFF8D300158948 /* Main.storyboard */,
 				316CEB1119FFF8D300158948 /* Images.xcassets */,
 				316CEB1319FFF8D300158948 /* LaunchScreen.xib */,
+				316CEB361A00032800158948 /* GameTableViewCell.h */,
+				316CEB371A00032800158948 /* GameTableViewCell.m */,
 				316CEB0019FFF8D300158948 /* Supporting Files */,
 				316CEB301A0001E300158948 /* StartViewController.h */,
 				316CEB311A0001E300158948 /* StartViewController.m */,
-				316CEB361A00032800158948 /* GameTableViewCell.h */,
-				316CEB371A00032800158948 /* GameTableViewCell.m */,
 				31D1343F1A0A705C00B2308E /* PongViewController.h */,
 				31D134401A0A705C00B2308E /* PongViewController.m */,
 			);

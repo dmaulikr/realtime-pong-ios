@@ -9,7 +9,9 @@
 #import "PongViewController.h"
 
 @interface PongViewController ()
-
+{
+    FirebaseHandle _handle;
+}
 @end
 
 @implementation PongViewController
@@ -17,11 +19,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Create a reference to a Firebase location
-    Firebase *myRootRef = [[Firebase alloc] initWithUrl:@"https://fiery-inferno-4044.firebaseio.com/"];
-    // Write data to Firebase
-    [myRootRef setValue:@"Do you have data? You'll love Firebase."];
     
     playerScore = 0;
     computerScore = 0;
@@ -32,9 +29,12 @@
     playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
     computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
     
-
+    _handle = [self.gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSLog(@"Snapshot value: %@", snapshot.value);
+    }];
+    
+    
 }
-
 
 - (void)viewWillAppear:(BOOL)animated{
     
@@ -173,9 +173,18 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    
-    [self.gameRef removeValue];
-    
+    NSLog(@"Dissappear");
+    if(self.isMaster){
+        [self.gameRef removeValue];
+    }else{
+        NSDictionary *update = @{@"slave" : @""};
+        [self.gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+            if (error) {
+                NSLog(@"Data could not be updated. %@",error);
+            }
+        }];
+    }
+    [self.gameRef removeAuthEventObserverWithHandle:_handle];
 }
 
 /*
