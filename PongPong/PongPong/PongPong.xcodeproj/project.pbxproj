@@ -11,7 +11,6 @@
 		316CEB0619FFF8D300158948 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB0519FFF8D300158948 /* AppDelegate.m */; };
 		316CEB0819FFF8D300158948 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB0719FFF8D300158948 /* Shader.fsh */; };
 		316CEB0A19FFF8D300158948 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB0919FFF8D300158948 /* Shader.vsh */; };
-		316CEB0D19FFF8D300158948 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB0C19FFF8D300158948 /* GameViewController.m */; };
 		316CEB1019FFF8D300158948 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB0E19FFF8D300158948 /* Main.storyboard */; };
 		316CEB1219FFF8D300158948 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB1119FFF8D300158948 /* Images.xcassets */; };
 		316CEB1519FFF8D300158948 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 316CEB1319FFF8D300158948 /* LaunchScreen.xib */; };
@@ -43,8 +42,6 @@
 		316CEB0519FFF8D300158948 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		316CEB0719FFF8D300158948 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
 		316CEB0919FFF8D300158948 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
-		316CEB0B19FFF8D300158948 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		316CEB0C19FFF8D300158948 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		316CEB0F19FFF8D300158948 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		316CEB1119FFF8D300158948 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		316CEB1419FFF8D300158948 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -115,8 +112,6 @@
 				316CEB0519FFF8D300158948 /* AppDelegate.m */,
 				316CEB0719FFF8D300158948 /* Shader.fsh */,
 				316CEB0919FFF8D300158948 /* Shader.vsh */,
-				316CEB0B19FFF8D300158948 /* GameViewController.h */,
-				316CEB0C19FFF8D300158948 /* GameViewController.m */,
 				316CEB0E19FFF8D300158948 /* Main.storyboard */,
 				316CEB1119FFF8D300158948 /* Images.xcassets */,
 				316CEB1319FFF8D300158948 /* LaunchScreen.xib */,
@@ -308,7 +303,6 @@
 				31D134411A0A705C00B2308E /* PongViewController.m in Sources */,
 				316CEB0619FFF8D300158948 /* AppDelegate.m in Sources */,
 				316CEB321A0001E300158948 /* StartViewController.m in Sources */,
-				316CEB0D19FFF8D300158948 /* GameViewController.m in Sources */,
 				316CEB381A00032800158948 /* GameTableViewCell.m in Sources */,
 				316CEB0319FFF8D300158948 /* main.m in Sources */,
 			);

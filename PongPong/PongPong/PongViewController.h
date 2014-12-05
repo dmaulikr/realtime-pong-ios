@@ -9,7 +9,27 @@
 #import <UIKit/UIKit.h>
 #import <Firebase/Firebase.h>
 
-@interface PongViewController : UIViewController
+int Y;
+int X;
+int playerScore;
+int computerScore;
+
+@interface PongViewController : UIViewController{
+    IBOutlet UIImageView *ball;
+    IBOutlet UIButton *startButton;
+    IBOutlet UIImageView *computerBar;
+    IBOutlet UIImageView *playerBar;
+    IBOutlet UILabel *computerStatusLabel;
+    IBOutlet UILabel *playerStatusLabel;
+    
+    NSTimer *timer;
+}
+
+-(IBAction)startButton:(id)sender;
+-(void)ballMovement;
+// Method for second player movement
+//-(void)computerMove;
+-(void)collisioDetection;
 
 @property (nonatomic,retain) Firebase *gameRef;
 
