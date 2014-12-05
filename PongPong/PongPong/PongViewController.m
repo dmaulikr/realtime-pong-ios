@@ -21,15 +21,12 @@
     // Create a reference to a Firebase location
     Firebase *myRootRef = [[Firebase alloc] initWithUrl:@"https://fiery-inferno-4044.firebaseio.com/"];
     // Write data to Firebase
-    [myRootRef setValue:@"Do you have data? You'll love Firebase."];
+    //[myRootRef setValue:@"Do you have data? You'll love Firebase."];
     
     playerScore = 0;
     computerScore = 0;
     
-    computerStatusLabel.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 3);
-    playerStatusLabel.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 2 * [[UIScreen mainScreen] bounds].size.height / 3);
-    
-    playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
+    //playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
     computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
     
 
@@ -46,11 +43,32 @@
     computerStatusLabel.text = [NSString stringWithFormat:@"0"];
     
     playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
-    computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
+    computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 of status bar
     
-    ball.backgroundColor = [UIColor blackColor];
-    playerBar.backgroundColor = [UIColor blackColor];
-    computerBar.backgroundColor = [UIColor blackColor];
+    //Half-court line
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    [shapeLayer setBounds:self.view.bounds];
+    [shapeLayer setPosition:self.view.center];
+    [shapeLayer setFillColor:[[UIColor clearColor] CGColor]];
+    [shapeLayer setStrokeColor:[[UIColor whiteColor] CGColor]];
+    [shapeLayer setLineWidth:5.0f];
+    [shapeLayer setLineJoin:kCALineJoinRound];
+    [shapeLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:20],[NSNumber numberWithInt:20],nil]];
+    
+    // Setup the path
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, 0, [[UIScreen mainScreen] bounds].size.height /2);
+    CGPathAddLineToPoint(path, NULL, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height /2);
+    
+    [shapeLayer setPath:path];
+    CGPathRelease(path);
+    
+    [[self.view layer] addSublayer:shapeLayer];
+    
+    ball.backgroundColor = [UIColor whiteColor];
+    playerBar.backgroundColor = [UIColor whiteColor];
+    computerBar.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (BOOL)prefersStatusBarHidden {
