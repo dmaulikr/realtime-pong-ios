@@ -7,9 +7,13 @@
 //
 
 #import "PongViewController.h"
+#import "Game.h"
 
 @interface PongViewController ()
-
+{
+    FirebaseHandle _handle;
+    Game *_game;
+}
 @end
 
 @implementation PongViewController
@@ -18,20 +22,30 @@
 {
     [super viewDidLoad];
     
-    // Create a reference to a Firebase location
-    Firebase *myRootRef = [[Firebase alloc] initWithUrl:@"https://fiery-inferno-4044.firebaseio.com/"];
-    // Write data to Firebase
-    //[myRootRef setValue:@"Do you have data? You'll love Firebase."];
-    
     playerScore = 0;
     computerScore = 0;
     
     //playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
     computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
     
-
+    _game = [[Game alloc] init];
+    _handle = [self.gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSLog(@"New data: %@",snapshot.value);
+        if(snapshot.value == (id)[NSNull null]){
+            _game = nil;
+            [self dismissViewControllerAnimated:YES completion:^{
+                [[[UIAlertView alloc] initWithTitle:@"" message:@"Other user quited the game" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }];
+        }else{
+            [_game setFromDict:snapshot.value];
+            if(_game.masterReady && _game.slaveReady){
+                NSLog(@"Start game!");
+            }
+        }
+    }];
+    
+    
 }
-
 
 - (void)viewWillAppear:(BOOL)animated{
     
@@ -182,6 +196,22 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)startGame:(id)sender {
+    NSDictionary *update;
+    if([self isMaster]){
+        update = @{@"master_ready" : @YES};
+    }else{
+        update = @{@"slave_ready" : @YES};
+    }
+    [self.gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+        if (error) {
+            NSLog(@"Data could not be updated. %@",error);
+        }
+    }];
+    
+    
+}
 - (IBAction)goBack:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:^{
@@ -191,9 +221,20 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    
-    [self.gameRef removeValue];
-    
+    NSLog(@"Dissappear!");
+    if([self isBeingDismissed] && _game != nil){
+        if(self.isMaster){
+            [self.gameRef removeValue];
+        }else{
+            NSDictionary *update = @{@"slave" : @""};
+            [self.gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+                if (error) {
+                    NSLog(@"Data could not be updated. %@",error);
+                }
+            }];
+        }
+        [self.gameRef removeAuthEventObserverWithHandle:_handle];
+    }
 }
 
 /*

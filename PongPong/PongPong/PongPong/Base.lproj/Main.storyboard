@@ -171,11 +171,12 @@
                         <outlet property="tableView" destination="I0w-wu-0N7" id="ORV-75-bXA"/>
                         <outlet property="usernamTextfield" destination="OS8-MH-iZM" id="QcQ-Xk-D9U"/>
                         <segue destination="HTi-dU-7Iy" kind="show" identifier="startGame" id="ahZ-eD-CXQ"/>
+                        <segue destination="HTi-dU-7Iy" kind="show" identifier="joinGame" id="3rk-OV-UAs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9q9-dn-5fi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-171" y="462"/>
+            <point key="canvasLocation" x="-239" y="166"/>
         </scene>
         <!--Pong View Controller-->
         <scene sceneID="spz-ss-U7V">
@@ -309,4 +310,7 @@
             <point key="canvasLocation" x="521" y="-53"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="3rk-OV-UAs"/>
+    </inferredMetricsTieBreakers>
 </document>

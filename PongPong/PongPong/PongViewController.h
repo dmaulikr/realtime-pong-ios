@@ -31,6 +31,7 @@ int computerScore;
 //-(void)computerMove;
 -(void)collisioDetection;
 
+@property (nonatomic) BOOL isMaster;
 @property (nonatomic,retain) Firebase *gameRef;
 
 @end
