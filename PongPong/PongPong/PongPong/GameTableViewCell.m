@@ -8,6 +8,7 @@
 
 #import "GameTableViewCell.h"
 
+
 @implementation GameTableViewCell
 
 - (void)awakeFromNib {
@@ -22,7 +23,7 @@
 
 - (IBAction)joinGame:(id)sender {
     
-    
+    [self.delegate joinGame:self];
     
 }
 @end

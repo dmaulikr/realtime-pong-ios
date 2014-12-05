@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StartViewController.h"
+#import <Firebase/Firebase.h>
 
 @interface GameTableViewCell : UITableViewCell
+
+@property (nonatomic, retain) Firebase *gameRef;
 @property (weak, nonatomic) IBOutlet UILabel *playerName;
+@property (weak,nonatomic) StartViewController *delegate;
 
 
 - (IBAction)joinGame:(id)sender;

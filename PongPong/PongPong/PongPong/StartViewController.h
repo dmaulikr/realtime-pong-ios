@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *addGameButton;
 - (IBAction)addGame:(id)sender;
 
+- (void)joinGame:(id)sender;
+
 @end

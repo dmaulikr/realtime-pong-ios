@@ -45,6 +45,7 @@
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
         }
     }];
+    
     [_gamesRef observeEventType:FEventTypeChildRemoved withBlock:^(FDataSnapshot *snapshot) {
         // Add the chat message to the array.
         int index = (int)[_games indexOfObject:snapshot.value];
@@ -96,6 +97,23 @@
     }];
 }
 
+- (void)joinGame:(id)sender{
+ 
+    NSIndexPath *indexpath = [self.tableView indexPathForCell:sender];
+    Firebase *gameRef = [_games objectAtIndex:indexpath.row];
+    NSDictionary *update = @{@"slave" : self.username};
+    [gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+        if (error) {
+            NSLog(@"Data could not be updated. %@",error);
+        } else {
+            
+            [self performSegueWithIdentifier:@"startGame" sender:ref];
+            
+        }
+    }];
+}
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"startGame"]){
@@ -125,6 +143,7 @@
     GameTableViewCell *gtvc = (GameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"gameCell"];
     NSDictionary *game = [_games objectAtIndex:indexPath.row];
     [gtvc.playerName setText:game[@"master"]];
+    [gtvc setDelegate:self];
     
     return gtvc;
 }
