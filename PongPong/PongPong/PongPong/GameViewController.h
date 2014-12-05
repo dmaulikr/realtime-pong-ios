@@ -7,8 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 
-@interface GameViewController : GLKViewController
+int Y;
+int X;
+int playerScore;
+int computerScore;
+
+@interface GameViewController : UIViewController {
+    
+    IBOutlet UIImageView *ball;
+    IBOutlet UIButton *startButton;
+    IBOutlet UIImageView *computerBar;
+    IBOutlet UIImageView *playerBar;
+    IBOutlet UILabel *computerStatusLabel;
+    IBOutlet UILabel *playerStatusLabel;
+    
+    NSTimer *timer;
+}
+
+-(IBAction)startButton:(id)sender;
+-(void)ballMovement;
+// Method for second player movement
+//-(void)computerMove;
+-(void)collisioDetection;
 
 @end

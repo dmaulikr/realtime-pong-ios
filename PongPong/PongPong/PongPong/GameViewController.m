@@ -7,90 +7,10 @@
 //
 
 #import "GameViewController.h"
-#import <OpenGLES/ES2/glext.h>
 #import <Firebase/Firebase.h>
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-// Uniform index.
-enum
-{
-    UNIFORM_MODELVIEWPROJECTION_MATRIX,
-    UNIFORM_NORMAL_MATRIX,
-    NUM_UNIFORMS
-};
-GLint uniforms[NUM_UNIFORMS];
-
-// Attribute index.
-enum
-{
-    ATTRIB_VERTEX,
-    ATTRIB_NORMAL,
-    NUM_ATTRIBUTES
-};
-
-GLfloat gCubeVertexData[216] = 
-{
-    // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
-    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    
-    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
-    
-    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
-    
-    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
-    
-    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
-    
-    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
-};
-
-@interface GameViewController () {
-    GLuint _program;
-    
-    GLKMatrix4 _modelViewProjectionMatrix;
-    GLKMatrix3 _normalMatrix;
-    float _rotation;
-    
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
-}
-@property (strong, nonatomic) EAGLContext *context;
-@property (strong, nonatomic) GLKBaseEffect *effect;
-
-- (void)setupGL;
-- (void)tearDownGL;
+@interface GameViewController ()
 
 @end
 
@@ -105,140 +25,134 @@ GLfloat gCubeVertexData[216] =
     // Write data to Firebase
     [myRootRef setValue:@"Do you have data? You'll love Firebase."];
     
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-
-    if (!self.context) {
-        NSLog(@"Failed to create ES context");
-    }
+    playerScore = 0;
+    computerScore = 0;
     
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    computerStatusLabel.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 3);
+    playerStatusLabel.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 2 * [[UIScreen mainScreen] bounds].size.height / 3);
     
-    [self setupGL];
-}
+    playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
+    computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
 
-- (void)dealloc
-{    
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-
-    if ([self isViewLoaded] && ([[self view] window] == nil)) {
-        self.view = nil;
-        
-        [self tearDownGL];
-        
-        if ([EAGLContext currentContext] == self.context) {
-            [EAGLContext setCurrentContext:nil];
-        }
-        self.context = nil;
-    }
-
-    // Dispose of any resources that can be recreated.
 }
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
-- (void)setupGL
-{
-    [EAGLContext setCurrentContext:self.context];
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *drag = [[event allTouches] anyObject];
+    playerBar.center = [drag locationInView:self.view];
     
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+    if(playerBar.center.y > [[UIScreen mainScreen] bounds].size.height - 28)
+        playerBar.center = CGPointMake(playerBar.center.x, [[UIScreen mainScreen] bounds].size.height - 28);
     
-    glEnable(GL_DEPTH_TEST);
+    if(playerBar.center.y < [[UIScreen mainScreen] bounds].size.height - 28)
+        playerBar.center = CGPointMake(playerBar.center.x, [[UIScreen mainScreen] bounds].size.height - 28);
     
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
+    if(playerBar.center.x < 80)
+        playerBar.center = CGPointMake(80, playerBar.center.y);
     
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+    if(playerBar.center.x > [[UIScreen mainScreen] bounds].size.width - 80)
+        playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width - 80, playerBar.center.y);
     
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    glBindVertexArrayOES(0);
 }
 
-- (void)tearDownGL
-{
-    [EAGLContext setCurrentContext:self.context];
+-(IBAction)startButton:(id)sender {
+    startButton.hidden = YES;
+    ball.hidden = NO;
     
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteVertexArraysOES(1, &_vertexArray);
+    Y = arc4random() % 11;
+    Y -= 5;
     
-    self.effect = nil;
+    X = arc4random() % 11;
+    X -= 5;
     
-    if (_program) {
-        glDeleteProgram(_program);
-        _program = 0;
+    if (Y == 0)
+        Y=1;
+    
+    if (X == 0)
+        X=1;
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(ballMovement) userInfo:nil repeats:YES];
+    
+}
+
+-(void)ballMovement {
+    ball.center = CGPointMake(ball.center.x + X, ball.center.y + Y);
+    
+    [self collisioDetection];
+    
+    if (ball.center.x < 20)
+        X= 0-X;
+    
+    if (ball.center.x > [[UIScreen mainScreen] bounds].size.width - 20)
+        X = 0-X;
+    
+    if (ball.center.y < computerBar.center.y) {
+        playerScore++;
+        playerStatusLabel.text = [NSString stringWithFormat:@"%d", playerScore];
+        
+        [timer invalidate];
+        startButton.hidden = NO;
+        
+        ball.hidden = YES;
+        ball.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 2);
+        
+        
+        if (playerScore == 10) {
+            startButton.hidden = YES;
+            playerStatusLabel.text = [NSString stringWithFormat:@"WIN"];
+            computerStatusLabel.text = [NSString stringWithFormat:@"LOOSE"];
+        }
+        
     }
+    
+    if (ball.center.y > playerBar.center.y) {
+        computerScore++;
+        computerStatusLabel.text = [NSString stringWithFormat:@"%d", computerScore];
+        
+        [timer invalidate];
+        startButton.hidden = NO;
+        
+        ball.hidden = YES;
+        ball.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 2);
+        
+        if (computerScore == 10) {
+            startButton.hidden = YES;
+            playerStatusLabel.text = [NSString stringWithFormat:@"LOOSE"];
+            computerStatusLabel.text = [NSString stringWithFormat:@"WIN"];
+        }
+        
+    }
+    
+    
 }
 
-#pragma mark - GLKView and GLKViewController delegate methods
-
-- (void)update
-{
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+-(void)collisioDetection {
+    if (CGRectIntersectsRect(playerBar.frame, ball.frame)) {
+        Y = arc4random() % 5;
+        Y = 0-Y;
+    }
     
-    self.effect.transform.projectionMatrix = projectionMatrix;
+    if (CGRectIntersectsRect(computerBar.frame, ball.frame))
+        Y = arc4random() % 5;
     
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    
-    // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
-    
-    // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
-    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-    
-    _rotation += self.timeSinceLastUpdate * 0.5f;
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+-(void)viewWillAppear:(BOOL)animated {
+    ball.hidden = YES;
+    [startButton setTitle:@"Start" forState:UIControlStateNormal];
+    playerStatusLabel.text = [NSString stringWithFormat:@"0"];
+    computerStatusLabel.text = [NSString stringWithFormat:@"0"];
     
-    glBindVertexArrayOES(_vertexArray);
+    playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height - 28);
+    computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
     
-    // Render the object with GLKit
-    [self.effect prepareToDraw];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    glUseProgram(_program);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    ball.backgroundColor = [UIColor blackColor];
+    playerBar.backgroundColor = [UIColor blackColor];
+    computerBar.backgroundColor = [UIColor blackColor];
 }
 
 @end
