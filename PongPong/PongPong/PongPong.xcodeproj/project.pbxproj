@@ -18,6 +18,7 @@
 		316CEB321A0001E300158948 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB311A0001E300158948 /* StartViewController.m */; };
 		316CEB381A00032800158948 /* GameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 316CEB371A00032800158948 /* GameTableViewCell.m */; };
 		318C1D0B1A31E73300A7C360 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 318C1D0A1A31E73300A7C360 /* Game.m */; };
+		318C1D0E1A31F38100A7C360 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 318C1D0D1A31F38100A7C360 /* Player.m */; };
 		31D1343E1A0A6EE500B2308E /* Munro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31D1343D1A0A6EE500B2308E /* Munro.ttf */; };
 		31D134411A0A705C00B2308E /* PongViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D134401A0A705C00B2308E /* PongViewController.m */; };
 		4776ED76050C9BCFD5B0D613 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DB200BB0C0927DD0A5FFD7F /* libPods.a */; };
@@ -55,6 +56,8 @@
 		316CEB371A00032800158948 /* GameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTableViewCell.m; sourceTree = "<group>"; };
 		318C1D091A31E73300A7C360 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		318C1D0A1A31E73300A7C360 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		318C1D0C1A31F38100A7C360 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		318C1D0D1A31F38100A7C360 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		31D1343D1A0A6EE500B2308E /* Munro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Munro.ttf; sourceTree = "<group>"; };
 		31D1343F1A0A705C00B2308E /* PongViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PongViewController.h; path = ../PongViewController.h; sourceTree = "<group>"; };
 		31D134401A0A705C00B2308E /* PongViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PongViewController.m; path = ../PongViewController.m; sourceTree = "<group>"; };
@@ -127,6 +130,8 @@
 				31D134401A0A705C00B2308E /* PongViewController.m */,
 				318C1D091A31E73300A7C360 /* Game.h */,
 				318C1D0A1A31E73300A7C360 /* Game.m */,
+				318C1D0C1A31F38100A7C360 /* Player.h */,
+				318C1D0D1A31F38100A7C360 /* Player.m */,
 			);
 			path = PongPong;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				316CEB321A0001E300158948 /* StartViewController.m in Sources */,
 				318C1D0B1A31E73300A7C360 /* Game.m in Sources */,
 				316CEB381A00032800158948 /* GameTableViewCell.m in Sources */,
+				318C1D0E1A31F38100A7C360 /* Player.m in Sources */,
 				316CEB0319FFF8D300158948 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

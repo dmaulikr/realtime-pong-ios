@@ -9,6 +9,7 @@
 #import "StartViewController.h"
 #import "GameTableViewCell.h"
 #import "PongViewController.h"
+#import "Game.h"
 #import <Firebase/Firebase.h>
 
 @interface StartViewController () <UITableViewDataSource,UITableViewDelegate>
@@ -42,6 +43,7 @@
         // Reload the table view so the new message will show up.
         if (!initialLoad) {
             NSIndexPath *ip = [NSIndexPath indexPathForRow:([_games count]-1) inSection:0];
+            NSLog(@"IP:%@",ip);
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
         }
     }];
@@ -52,7 +54,7 @@
         for(int i = 0; i < [_games count]; i++){
             
             FDataSnapshot *snap = (FDataSnapshot *)[_games objectAtIndex:i];
-            if([snap.ref isEqual:snapshot.ref]){
+            if([snap.ref.name isEqualToString:snapshot.ref.name]){
                 index = i;
             }
         }
@@ -91,18 +93,19 @@
 
 - (void)addGame:(id)sender{
     
-    NSDictionary *game = @{@"master" : self.username,
-                           @"slave": @"",
-                           @"master_ready": @NO,
-                           @"slave_ready": @NO
-                           };
-    NSLog(@"Add game: %@",game);
-    [[_gamesRef childByAutoId] setValue:game withCompletionBlock:^(NSError *error, Firebase *ref) {
+    Player *master = [[Player alloc] init];
+    master.name = self.username;
+    Player *slave = [[Player alloc] init];
+    Game *newGame = [[Game alloc] init];
+    newGame.master = master;
+    newGame.slave = slave;
+    
+    [[_gamesRef childByAutoId] setValue:[newGame getDict] withCompletionBlock:^(NSError *error, Firebase *ref) {
         if (error) {
             NSLog(@"Data could not be saved. %@",error);
         } else {
             
-            [self performSegueWithIdentifier:@"startGame" sender:ref];
+            [self performSegueWithIdentifier:@"startGame" sender:_gamesRef];
             
         }
     }];
@@ -113,13 +116,13 @@
     NSIndexPath *indexpath = [self.tableView indexPathForCell:sender];
     FDataSnapshot *snapshot = [_games objectAtIndex:indexpath.row];
     Firebase *gameRef = snapshot.ref;
-    NSDictionary *update = @{@"slave" : self.username};
-    [gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+    NSDictionary *update = @{ @"name" :self.username};
+    [[gameRef childByAppendingPath:@"slave"] updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
         if (error) {
             NSLog(@"Data could not be updated. %@",error);
         } else {
             
-            [self performSegueWithIdentifier:@"joinGame" sender:ref];
+            [self performSegueWithIdentifier:@"joinGame" sender:_gamesRef];
             
         }
     }];
@@ -158,9 +161,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     GameTableViewCell *gtvc = (GameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"gameCell"];
-    FDataSnapshot *game = [_games objectAtIndex:indexPath.row];
-    NSDictionary *gameValue = game.value;
-    [gtvc.playerName setText:gameValue[@"master"]];
+    FDataSnapshot *gameData = [_games objectAtIndex:indexPath.row];
+    Game *game = [[Game alloc] init];
+    NSLog(@"gamedata: %@",gameData.value);
+    [game setFromDict:gameData.value];
+    [gtvc.playerName setText:game.master.name];
     [gtvc setDelegate:self];
     
     return gtvc;

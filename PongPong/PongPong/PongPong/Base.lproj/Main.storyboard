@@ -14,6 +14,7 @@
             <string>Munro</string>
             <string>Munro</string>
             <string>Munro</string>
+            <string>Munro</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -254,11 +255,27 @@
                                     <constraint firstAttribute="height" constant="20" id="pxp-ll-kOI"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z8-hf-0r6">
+                                <rect key="frame" x="266" y="110" width="69" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="T1j-MI-J9g"/>
+                                    <constraint firstAttribute="height" constant="33" id="qby-nz-mSD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Munro" family="Munro" pointSize="22"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startGame:" destination="HTi-dU-7Iy" eventType="touchUpInside" id="zcU-Vv-HXh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="lFP-E4-jxl" firstAttribute="top" secondItem="tdp-85-O1d" secondAttribute="bottom" constant="241" id="0z6-qN-9xy"/>
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="top" secondItem="pdI-xo-yKS" secondAttribute="bottom" constant="220" id="5B6-Vb-nMg"/>
+                            <constraint firstItem="0Z8-hf-0r6" firstAttribute="top" secondItem="pdI-xo-yKS" secondAttribute="bottom" constant="90" id="7Nj-xx-i5R"/>
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="leading" secondItem="HHM-9S-DhY" secondAttribute="leadingMargin" constant="483" id="7T6-xL-sbg"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="trailing" secondItem="HHM-9S-DhY" secondAttribute="trailingMargin" id="9lI-k3-n2b"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rfI-2k-dMZ" secondAttribute="trailing" constant="100" id="Ils-sJ-zxJ"/>
@@ -270,6 +287,7 @@
                             <constraint firstItem="tdp-85-O1d" firstAttribute="top" secondItem="TPx-XA-mHH" secondAttribute="bottom" constant="50" id="agk-1h-cHm"/>
                             <constraint firstItem="lFP-E4-jxl" firstAttribute="top" secondItem="rfI-2k-dMZ" secondAttribute="bottom" constant="8" id="cmr-jw-2Qw"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="top" secondItem="TPx-XA-mHH" secondAttribute="bottom" constant="19" id="fKM-Jn-irx"/>
+                            <constraint firstAttribute="centerX" secondItem="0Z8-hf-0r6" secondAttribute="centerX" id="fTJ-87-bva"/>
                             <constraint firstItem="rfI-2k-dMZ" firstAttribute="leading" secondItem="HHM-9S-DhY" secondAttribute="leadingMargin" constant="100" id="l1m-YY-kmN"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="top" secondItem="TPx-XA-mHH" secondAttribute="bottom" constant="10" id="luS-kD-NAq"/>
                             <constraint firstItem="hfn-AR-iLn" firstAttribute="top" secondItem="HHM-9S-DhY" secondAttribute="topMargin" constant="8" id="n3O-gr-Gpl"/>
@@ -298,11 +316,13 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="JHk-Vw-KEb" id="lsI-Up-sbm"/>
                         <outlet property="ball" destination="g7d-N4-fdA" id="xeP-cy-3Jc"/>
                         <outlet property="computerBar" destination="hfn-AR-iLn" id="0zl-nN-WJQ"/>
                         <outlet property="computerStatusLabel" destination="TPx-XA-mHH" id="hYL-3n-ppC"/>
                         <outlet property="playerBar" destination="rfI-2k-dMZ" id="9yh-FQ-fgi"/>
                         <outlet property="playerStatusLabel" destination="tdp-85-O1d" id="ENe-Ze-Uyj"/>
+                        <outlet property="startButton" destination="0Z8-hf-0r6" id="hmR-to-qxu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eeY-Of-y2c" userLabel="First Responder" sceneMemberID="firstResponder"/>

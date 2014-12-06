@@ -14,6 +14,8 @@
     FirebaseHandle _handle;
     Game *_game;
 }
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
 @end
 
 @implementation PongViewController
@@ -29,20 +31,31 @@
     computerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, 48); //28 + 20 di status bar
     
     _game = [[Game alloc] init];
-    _handle = [self.gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        NSLog(@"New data: %@",snapshot.value);
-        if(snapshot.value == (id)[NSNull null]){
-            _game = nil;
-            [self dismissViewControllerAnimated:YES completion:^{
-                [[[UIAlertView alloc] initWithTitle:@"" message:@"Other user quited the game" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            }];
-        }else{
-            [_game setFromDict:snapshot.value];
-            if(_game.masterReady && _game.slaveReady){
-                NSLog(@"Start game!");
+    if(self.isMaster){
+        _handle = [[self.gameRef childByAppendingPath:@"slave"] observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            
+            NSLog(@"Value: %@",snapshot.value);
+            if(snapshot.value != (id)[NSNull null]){
+                Player *slave = [[Player alloc] init];
+                [slave setFromDict:snapshot.value];
+                _game.slave = slave;
+                [self setBar:slave.barPosition isOwnBar:NO];
             }
-        }
-    }];
+            
+        }];
+    }else{
+        _handle = [[self.gameRef childByAppendingPath:@"master"] observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            
+            NSLog(@"Value: %@",snapshot.value);
+            if(snapshot.value != (id)[NSNull null]){
+                Player *master = [[Player alloc] init];
+                [master setFromDict:snapshot.value];
+                _game.master = master;
+                [self setBar:master.barPosition isOwnBar:NO];
+            }
+        }];
+    }
+    
     
     
 }
@@ -52,7 +65,7 @@
     NSLog(@"Gameref: %@",self.gameRef);
 
     ball.hidden = YES;
-    [startButton setTitle:@"Start" forState:UIControlStateNormal];
+    [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
     playerStatusLabel.text = [NSString stringWithFormat:@"0"];
     computerStatusLabel.text = [NSString stringWithFormat:@"0"];
     
@@ -91,24 +104,52 @@
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *drag = [[event allTouches] anyObject];
-    playerBar.center = [drag locationInView:self.view];
     
-    if(playerBar.center.y > [[UIScreen mainScreen] bounds].size.height - 28)
-        playerBar.center = CGPointMake(playerBar.center.x, [[UIScreen mainScreen] bounds].size.height - 28);
+    CGFloat x = [drag locationInView:self.view].x;
+    [self setBar:x isOwnBar:YES];
     
-    if(playerBar.center.y < [[UIScreen mainScreen] bounds].size.height - 28)
-        playerBar.center = CGPointMake(playerBar.center.x, [[UIScreen mainScreen] bounds].size.height - 28);
-    
-    if(playerBar.center.x < 80)
-        playerBar.center = CGPointMake(80, playerBar.center.y);
-    
-    if(playerBar.center.x > [[UIScreen mainScreen] bounds].size.width - 80)
-        playerBar.center = CGPointMake([[UIScreen mainScreen] bounds].size.width - 80, playerBar.center.y);
+    Player *player = [self getCurrentPlayer];
+    player.barPosition = x;
+    [self updateCurrentUser];
     
 }
 
--(IBAction)startButton:(id)sender {
-    startButton.hidden = YES;
+- (void)setBar:(CGFloat)x isOwnBar:(BOOL)ownBar{
+    
+    UIImageView *view;
+    CGFloat y;
+    if((ownBar && [self isMaster]) || (!ownBar && ![self isMaster])){
+        view = playerBar;
+        y = [[UIScreen mainScreen] bounds].size.height - 28;
+    }else{
+        view = computerBar;
+        y = 28;
+    }
+    
+    view.center = CGPointMake(x, y);
+    
+    if(view.center.x < 80)
+        view.center = CGPointMake(80, view.center.y);
+    
+    if(view.center.x > [[UIScreen mainScreen] bounds].size.width - 80)
+        view.center = CGPointMake([[UIScreen mainScreen] bounds].size.width - 80, view.center.y);
+    
+}
+
+-(void)startTheGame {
+    
+    
+    if([self isMaster]){
+        NSDictionary *update = @{@"slave_ready" : @NO,
+                                @"master_ready" : @NO};
+        [self.gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+            if (error) {
+                NSLog(@"Data could not be updated. %@",error);
+            }
+        }];
+    }
+    
+    self.startButton.hidden = YES;
     ball.hidden = NO;
     
     Y = arc4random() % 11;
@@ -143,14 +184,14 @@
         playerStatusLabel.text = [NSString stringWithFormat:@"%d", playerScore];
         
         [timer invalidate];
-        startButton.hidden = NO;
+        self.startButton.hidden = NO;
         
         ball.hidden = YES;
         ball.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 2);
         
         
         if (playerScore == 10) {
-            startButton.hidden = YES;
+            self.startButton.hidden = YES;
             playerStatusLabel.text = [NSString stringWithFormat:@"WIN"];
             computerStatusLabel.text = [NSString stringWithFormat:@"LOOSE"];
         }
@@ -162,13 +203,13 @@
         computerStatusLabel.text = [NSString stringWithFormat:@"%d", computerScore];
         
         [timer invalidate];
-        startButton.hidden = NO;
+        self.startButton.hidden = NO;
         
         ball.hidden = YES;
         ball.center = CGPointMake([[UIScreen mainScreen] bounds].size.width / 2, [[UIScreen mainScreen] bounds].size.height / 2);
         
         if (computerScore == 10) {
-            startButton.hidden = YES;
+            self.startButton.hidden = YES;
             playerStatusLabel.text = [NSString stringWithFormat:@"LOOSE"];
             computerStatusLabel.text = [NSString stringWithFormat:@"WIN"];
         }
@@ -198,20 +239,36 @@
 }
 
 - (IBAction)startGame:(id)sender {
-    NSDictionary *update;
+    Player *player = [self getCurrentPlayer];
+    player.ready = YES;
+    [self updateCurrentUser];
+}
+
+- (void)updateCurrentUser
+{
+    NSString *user;
     if([self isMaster]){
-        update = @{@"master_ready" : @YES};
+        user = @"master";
     }else{
-        update = @{@"slave_ready" : @YES};
+        user = @"slave";
     }
-    [self.gameRef updateChildValues:update withCompletionBlock:^(NSError *error, Firebase *ref) {
+    [[self.gameRef childByAppendingPath:user] updateChildValues:[[self getCurrentPlayer] getDict] withCompletionBlock:^(NSError *error, Firebase *ref) {
         if (error) {
             NSLog(@"Data could not be updated. %@",error);
         }
     }];
     
-    
 }
+
+- (Player *)getCurrentPlayer{
+
+    if([self isMaster]){
+        return _game.master;
+    }else{
+        return _game.slave;
+    }
+}
+
 - (IBAction)goBack:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:^{
