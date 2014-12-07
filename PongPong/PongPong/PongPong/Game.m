@@ -26,14 +26,14 @@
     
     [self.master setFromDict:[dict objectForKey:@"master"]];
     [self.slave setFromDict:[dict objectForKey:@"slave"]];
-    self.ballX = [[dict objectForKey:@"ball_x"] floatValue];
-    self.ballY = [[dict objectForKey:@"ball_y"] floatValue];
+    self.ballX = [[[dict objectForKey:@"ball_position"] objectForKey:@"ball_x"] floatValue];
+    self.ballY = [[[dict objectForKey:@"ball_position"] objectForKey:@"ball_y"] floatValue];
     
 }
 
 - (NSDictionary *)getDict{
-    
-    return @{ @"master" : [self.master getDict], @"slave" : [self.slave getDict], @"ball_x" : [NSNumber numberWithFloat:self.ballX], @"ball_y" : [NSNumber numberWithFloat:self.ballY]};
+    NSDictionary *ballPosition = @{@"ball_x" : [NSNumber numberWithFloat:self.ballX], @"ball_y" : [NSNumber numberWithFloat:self.ballY]};
+    return @{ @"master" : [self.master getDict], @"slave" : [self.slave getDict], @"ball_position" : ballPosition };
     
 }
 

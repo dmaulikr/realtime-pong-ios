@@ -15,6 +15,7 @@
             <string>Munro</string>
             <string>Munro</string>
             <string>Munro</string>
+            <string>Munro</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -209,15 +210,8 @@
                                     <constraint firstAttribute="width" constant="160" id="XhH-Et-sIj"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g7d-N4-fdA">
-                                <rect key="frame" x="-21" y="7" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="aoY-Db-86v"/>
-                                    <constraint firstAttribute="width" constant="40" id="kDL-0b-xRc"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="246" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TPx-XA-mHH">
-                                <rect key="frame" x="501" y="240" width="83" height="38"/>
+                                <rect key="frame" x="501" y="240" width="82.5" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="85" id="gRJ-pk-BrS"/>
                                     <constraint firstAttribute="height" constant="50" id="hSy-NR-EEa"/>
@@ -233,7 +227,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="244" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdp-85-O1d">
-                                <rect key="frame" x="501" y="316" width="83" height="38"/>
+                                <rect key="frame" x="501" y="316" width="82.5" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="1IG-N7-ZEW"/>
                                     <constraint firstAttribute="width" constant="85" id="l05-4L-5sB"/>
@@ -267,9 +261,26 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="startGame:" destination="HTi-dU-7Iy" eventType="touchUpInside" id="zcU-Vv-HXh"/>
+                                    <action selector="start:" destination="HTi-dU-7Iy" eventType="touchUpInside" id="HOi-P5-49y"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raI-5x-0Rq">
+                                <rect key="frame" x="244" y="272" width="112" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="112" id="AK7-4t-QsZ"/>
+                                    <constraint firstAttribute="height" constant="56" id="QqX-NK-J2m"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Munro" family="Munro" pointSize="50"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g7d-N4-fdA">
+                                <rect key="frame" x="280" y="280" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="aoY-Db-86v"/>
+                                    <constraint firstAttribute="width" constant="40" id="kDL-0b-xRc"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -277,6 +288,7 @@
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="top" secondItem="pdI-xo-yKS" secondAttribute="bottom" constant="220" id="5B6-Vb-nMg"/>
                             <constraint firstItem="0Z8-hf-0r6" firstAttribute="top" secondItem="pdI-xo-yKS" secondAttribute="bottom" constant="90" id="7Nj-xx-i5R"/>
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="leading" secondItem="HHM-9S-DhY" secondAttribute="leadingMargin" constant="483" id="7T6-xL-sbg"/>
+                            <constraint firstAttribute="centerY" secondItem="g7d-N4-fdA" secondAttribute="centerY" id="8YO-QG-gWJ"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="trailing" secondItem="HHM-9S-DhY" secondAttribute="trailingMargin" id="9lI-k3-n2b"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rfI-2k-dMZ" secondAttribute="trailing" constant="100" id="Ils-sJ-zxJ"/>
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="trailing" secondItem="HHM-9S-DhY" secondAttribute="trailingMargin" id="MxN-Ab-JmU"/>
@@ -288,12 +300,15 @@
                             <constraint firstItem="lFP-E4-jxl" firstAttribute="top" secondItem="rfI-2k-dMZ" secondAttribute="bottom" constant="8" id="cmr-jw-2Qw"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="top" secondItem="TPx-XA-mHH" secondAttribute="bottom" constant="19" id="fKM-Jn-irx"/>
                             <constraint firstAttribute="centerX" secondItem="0Z8-hf-0r6" secondAttribute="centerX" id="fTJ-87-bva"/>
+                            <constraint firstAttribute="centerX" secondItem="g7d-N4-fdA" secondAttribute="centerX" id="h6K-Rw-rhP"/>
+                            <constraint firstAttribute="centerX" secondItem="raI-5x-0Rq" secondAttribute="centerX" id="iTG-IV-4kb"/>
                             <constraint firstItem="rfI-2k-dMZ" firstAttribute="leading" secondItem="HHM-9S-DhY" secondAttribute="leadingMargin" constant="100" id="l1m-YY-kmN"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="top" secondItem="TPx-XA-mHH" secondAttribute="bottom" constant="10" id="luS-kD-NAq"/>
                             <constraint firstItem="hfn-AR-iLn" firstAttribute="top" secondItem="HHM-9S-DhY" secondAttribute="topMargin" constant="8" id="n3O-gr-Gpl"/>
                             <constraint firstItem="tdp-85-O1d" firstAttribute="trailing" secondItem="HHM-9S-DhY" secondAttribute="trailingMargin" id="nCb-rt-Saw"/>
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="top" secondItem="pdI-xo-yKS" secondAttribute="bottom" constant="220" id="pNu-ZB-g4Q"/>
                             <constraint firstItem="TPx-XA-mHH" firstAttribute="top" secondItem="pdI-xo-yKS" secondAttribute="bottom" constant="220" id="uUH-8k-mTr"/>
+                            <constraint firstAttribute="centerY" secondItem="raI-5x-0Rq" secondAttribute="centerY" id="vVg-ES-Jbu"/>
                             <constraint firstItem="lFP-E4-jxl" firstAttribute="top" secondItem="JHk-Vw-KEb" secondAttribute="bottom" constant="196" id="xjs-E0-wDY"/>
                             <constraint firstItem="lFP-E4-jxl" firstAttribute="top" secondItem="tdp-85-O1d" secondAttribute="bottom" constant="246" id="xnR-ri-m6H"/>
                         </constraints>
@@ -320,6 +335,7 @@
                         <outlet property="ball" destination="g7d-N4-fdA" id="xeP-cy-3Jc"/>
                         <outlet property="computerBar" destination="hfn-AR-iLn" id="0zl-nN-WJQ"/>
                         <outlet property="computerStatusLabel" destination="TPx-XA-mHH" id="hYL-3n-ppC"/>
+                        <outlet property="countDownLabel" destination="raI-5x-0Rq" id="Juy-6h-3sL"/>
                         <outlet property="playerBar" destination="rfI-2k-dMZ" id="9yh-FQ-fgi"/>
                         <outlet property="playerStatusLabel" destination="tdp-85-O1d" id="ENe-Ze-Uyj"/>
                         <outlet property="startButton" destination="0Z8-hf-0r6" id="hmR-to-qxu"/>
@@ -327,7 +343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eeY-Of-y2c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="521" y="-53"/>
+            <point key="canvasLocation" x="521" y="-88"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -28,7 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [Firebase setLoggingEnabled:YES];
+    NSLog(@"Bounds: %@",NSStringFromCGRect([[UIScreen mainScreen] bounds]));
+    //[Firebase setLoggingEnabled:YES];
     
     _games = [[NSMutableArray alloc] init];
     
@@ -105,7 +106,7 @@
             NSLog(@"Data could not be saved. %@",error);
         } else {
             
-            [self performSegueWithIdentifier:@"startGame" sender:_gamesRef];
+            [self performSegueWithIdentifier:@"startGame" sender:ref];
             
         }
     }];
@@ -122,7 +123,7 @@
             NSLog(@"Data could not be updated. %@",error);
         } else {
             
-            [self performSegueWithIdentifier:@"joinGame" sender:_gamesRef];
+            [self performSegueWithIdentifier:@"joinGame" sender:gameRef];
             
         }
     }];
